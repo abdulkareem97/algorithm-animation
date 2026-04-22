@@ -4,16 +4,6 @@ import { sleep } from "@/utils/helper";
 export default function UseInsertionSort() {
 
 
-
-    // for(let i = 1; i < n; i++) {
-    //         let j = i;
-    //     while(j>0)
-    //         if(arr[j] > arr[j-1]) {
-    //             swap(arr[j], arr[j-1])
-    //         }
-    //     }
-    // }
-
     const code = [
         [
             { text: "for (", id: "l1-0" },
@@ -83,7 +73,7 @@ export default function UseInsertionSort() {
 
         for (let i = 1; i < n; i++) {
             for (let ele of firstline) {
-                setActiveToken((prev) => ({ activeLine: 0, activeToken: ele, variables: { ...prev.variables, i: { color: colors.i.color, value: i } } }));
+                setActiveToken((prev:any) => ({ activeLine: 0, activeToken: ele, variables: { ...prev.variables, i: { color: colors.i.color, value: i } } }));
                 setSelectedIndex({ [i]: colors.i });
                 await sleep(ms);
             }
@@ -91,24 +81,24 @@ export default function UseInsertionSort() {
 
             let j = i;
             setSelectedIndex({ [j]: colors.j });
-            setActiveToken((prev) => ({ activeLine: 1, activeToken: 'l2-0', variables: { ...prev.variables, j: { color: colors.j.color, value: j } } }));
+            setActiveToken((prev:any) => ({ activeLine: 1, activeToken: 'l2-0', variables: { ...prev.variables, j: { color: colors.j.color, value: j } } }));
             await sleep(ms);
 
 
 
-            setActiveToken((prev) => ({ activeLine: 2, activeToken: 'l3-1', variables: { ...prev.variables } }));
+            setActiveToken((prev:any) => ({ activeLine: 2, activeToken: 'l3-1', variables: { ...prev.variables } }));
             await sleep(ms);
             setSelectedIndex({ [j]: colors.j, [j - 1]: colors.j });
-            setActiveToken((prev) => ({ activeLine: 2, activeToken: 'l3-3', variables: { ...prev.variables } }));
+            setActiveToken((prev:any) => ({ activeLine: 2, activeToken: 'l3-3', variables: { ...prev.variables } }));
             await sleep(ms);
 
 
             while (j > 0 && tempArr[j - 1].value > tempArr[j].value) {
                 if (j != i) {
-                    setActiveToken((prev) => ({ activeLine: 2, activeToken: 'l3-1', variables: { ...prev.variables } }));
+                    setActiveToken((prev:any) => ({ activeLine: 2, activeToken: 'l3-1', variables: { ...prev.variables } }));
                     await sleep(ms);
                     setSelectedIndex({ [j]: colors.j, [j - 1]: colors.j });
-                    setActiveToken((prev) => ({ activeLine: 2, activeToken: 'l3-3', variables: { ...prev.variables } }));
+                    setActiveToken((prev:any) => ({ activeLine: 2, activeToken: 'l3-3', variables: { ...prev.variables } }));
                     await sleep(ms);
                 }
 
@@ -119,13 +109,13 @@ export default function UseInsertionSort() {
                 [tempArr[j], tempArr[j - 1]] = [tempArr[j - 1], tempArr[j]];
 
                 setArr([...tempArr]);
-                setActiveToken((prev) => ({ activeLine: 4, activeToken: 'l5-0', variables: { ...prev.variables } }));
+                setActiveToken((prev:any) => ({ activeLine: 4, activeToken: 'l5-0', variables: { ...prev.variables } }));
                 await sleep(ms);
 
 
                 j--;
 
-                setActiveToken((prev) => ({ activeLine: 5, activeToken: 'l6-0', variables: { ...prev.variables, j: { color: colors.j.color, value: j } } }));
+                setActiveToken((prev:any) => ({ activeLine: 5, activeToken: 'l6-0', variables: { ...prev.variables, j: { color: colors.j.color, value: j } } }));
                 setSelectedIndex({ [j]: colors.j });
                 await sleep(ms);
             }

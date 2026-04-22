@@ -82,17 +82,17 @@ export default function useSelectionSort() {
         for (let i = 0; i < n; i++) {
 
             for (let ele of firstline) {
-                setActiveToken((prev) => ({ activeLine: 0, activeToken: ele, variables: { ...prev.variables, i:{color :colors.i.color , value:i} } }));
+                setActiveToken((prev:any) => ({ activeLine: 0, activeToken: ele, variables: { ...prev.variables, i:{color :colors.i.color , value:i} } }));
                 setSelectedIndex({ [i]: colors.i });
                 await sleep(ms);
             }
             let mini = i;
             setSelectedIndex({ [i]: colors.i , [mini]: colors.mini });
-            setActiveToken((prev) => ({ activeLine: 1, activeToken: 'l2-0', variables: { ...prev.variables, mini:{color :colors.mini.color , value:mini} } }));
+            setActiveToken((prev:any) => ({ activeLine: 1, activeToken: 'l2-0', variables: { ...prev.variables, mini:{color :colors.mini.color , value:mini} } }));
             await sleep(ms);
             for (let j = i; j < n; j++) {
                 for (let ele of secondLine) {
-                    setActiveToken((prev) => ({ activeLine: 2, activeToken: ele, variables: { ...prev.variables, j:{color :colors.j.color , value:j} } }));
+                    setActiveToken((prev:any) => ({ activeLine: 2, activeToken: ele, variables: { ...prev.variables, j:{color :colors.j.color , value:j} } }));
                     setSelectedIndex({ [i]: colors.i ,  [mini]: colors.mini, [j]: colors.j });
                     await sleep(ms);
                 }
@@ -100,7 +100,7 @@ export default function useSelectionSort() {
 
 
                 // setSelectedIndex([j, mini]);
-                setActiveToken((prev) => ({ activeLine: 3, activeToken: 'l4-0', variables: { ...prev.variables } }));
+                setActiveToken((prev:any) => ({ activeLine: 3, activeToken: 'l4-0', variables: { ...prev.variables } }));
                 await sleep(ms);
                 if (tempArr[mini].value > tempArr[j].value) {
 
@@ -111,7 +111,7 @@ export default function useSelectionSort() {
                     setSelectedIndex({ [i]: colors.i , [mini]: colors.mini });
 
 
-                    setActiveToken((prev) => ({ activeLine: 4, activeToken: 'l5-0', variables: { ...prev.variables, mini:{color :colors.mini.color , value:mini} } }));
+                    setActiveToken((prev:any) => ({ activeLine: 4, activeToken: 'l5-0', variables: { ...prev.variables, mini:{color :colors.mini.color , value:mini} } }));
                     await sleep(ms);
                 }
             }
@@ -119,7 +119,7 @@ export default function useSelectionSort() {
             [tempArr[i], tempArr[mini]] = [tempArr[mini], tempArr[i]];
             setArr([...tempArr]);
 
-            setActiveToken((prev) => ({ activeLine: 6, activeToken: 'l7-0', variables: { ...prev.variables } }));
+            setActiveToken((prev:any) => ({ activeLine: 6, activeToken: 'l7-0', variables: { ...prev.variables } }));
             await sleep(ms);
 
             setSelectedIndex([]);

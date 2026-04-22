@@ -79,20 +79,20 @@ export default function UseBubbleSort() {
 
         for (let i = 0; i < n; i++) {
             for (let ele of firstline) {
-                setActiveToken((prev) => ({ activeLine: 0, activeToken: ele, variables: { ...prev.variables, i: { color: colors.i.color, value: i } } }));
+                setActiveToken((prev:any) => ({ activeLine: 0, activeToken: ele, variables: { ...prev.variables, i: { color: colors.i.color, value: i } } }));
                 setSelectedIndex({ });
                 await sleep(ms);
             }
             for (let j = 0; j < n - i - 1; j++) {
                 for (let ele of secondLine) {
-                    setActiveToken((prev) => ({ activeLine: 1, activeToken: ele, variables: { ...prev.variables, j: { color: colors.j.color, value: j } } }));
+                    setActiveToken((prev:any) => ({ activeLine: 1, activeToken: ele, variables: { ...prev.variables, j: { color: colors.j.color, value: j } } }));
                     setSelectedIndex({ [j]: colors.j});
                     await sleep(ms);
                 }
 
 
                 setSelectedIndex({ [j]: colors.j, [j + 1]: colors.j  });
-                setActiveToken((prev) => ({ activeLine: 2, activeToken: 'l3-0', variables: { ...prev.variables, j: { color: colors.j.color, value: j } } }));
+                setActiveToken((prev:any) => ({ activeLine: 2, activeToken: 'l3-0', variables: { ...prev.variables, j: { color: colors.j.color, value: j } } }));
 
                 await sleep(ms);
 
@@ -103,7 +103,7 @@ export default function UseBubbleSort() {
                     [tempArr[j], tempArr[j + 1]] = [tempArr[j + 1], tempArr[j]];
 
                     setArr([...tempArr]);
-                    setActiveToken((prev) => ({ activeLine: 3, activeToken: 'l4-0', variables: { ...prev.variables, j: { color: colors.j.color, value: j } }}));
+                    setActiveToken((prev:any) => ({ activeLine: 3, activeToken: 'l4-0', variables: { ...prev.variables, j: { color: colors.j.color, value: j } }}));
                     await sleep(ms);
                 }
             }
