@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import CodeExecutionVisualizer from '../codeHighLighter/CodeExecutionVisualizer';
 import useSpeed from '@/store/speedSlice';
 import { use } from 'framer-motion/client';
+import SpeedSlider from '../SpeedSlider';
 
 const ARR = [
     { id: 3, value: 8 },
@@ -35,6 +36,8 @@ const Main = ({ code, sort, codeVisible = true,title,hideButton=false,isExecute=
     const originalArr = ARR;
 
     const [arr, setArr] = useState<{ id: number; value: number; }[]>();
+
+    const {setSpeed} = useSpeed((s: any) => s);
 
     useEffect(() => {
         setArr([...originalArr]);
@@ -111,6 +114,8 @@ const Main = ({ code, sort, codeVisible = true,title,hideButton=false,isExecute=
                 </div>}
 
               {!hideButton &&  <div className='flex justify-center'>
+
+
                          {/* Button */}
                     <div className='mt-6'>
                         <button
