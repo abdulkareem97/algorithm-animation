@@ -1,13 +1,16 @@
 'use client'
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
+import CodeExecutionVisualizer from '../codeHighLighter/CodeExecutionVisualizer';
+import useSpeed from '@/store/speedSlice';
+import { use } from 'framer-motion/client';
 
 const ARR = [
+    { id: 3, value: 8 },
+    { id: 5, value: 6 },
     { id: 1, value: 10 },
     { id: 2, value: 9 },
-    { id: 3, value: 8 },
     { id: 4, value: 7 },
-    { id: 5, value: 6 },
     { id: 6, value: 5 },
     { id: 7, value: 4 },
     { id: 8, value: 3 },
@@ -15,125 +18,112 @@ const ARR = [
     { id: 10, value: 1 },
 ];
 
-const sleep = (ms: number) => new Promise(res => setTimeout(res, ms));
 
-const DURATION = 0.2;
+interface Props {
+    code: any;
+    sort: any;
+    codeVisible?: boolean;
+    title:string
+    hideButton?: boolean
+    isExecute?: boolean
+}
 
-const Main = () => {
+const Main = ({ code, sort, codeVisible = true,title,hideButton=false,isExecute=false }: Props) => {
 
-    const [arr, setArr] = useState(ARR);
-    const [selectedIndex, setSelectedIndex] = useState<number[]>([-1, -1]);
-    const [lastSortedIndex, setLastSortedIndex] = useState(200);
 
-    const reset = () => {
-        setArr([...ARR]);
-        setSelectedIndex([-1, -1]);
-        setLastSortedIndex(200);
-    }
 
-    const execute1 = async (ms:number=1000) => {
-        const tempArr = [...ARR];
-        reset();
+    const originalArr = ARR;
 
-        let n = tempArr.length;
-        await sleep(ms);
+    const [arr, setArr] = useState<{ id: number; value: number; }[]>();
 
-        for (let i = 0; i < n; i++) {
-            for (let j = 0; j < n - i - 1; j++) {
+    useEffect(() => {
+        setArr([...originalArr]);
+    }, [originalArr])
+    // const [selectedIndex, setSelectedIndex] = useState<number[]>([-1, -1]);
 
-                setSelectedIndex([j, j + 1]);
-                await sleep(ms);
+    // [{ind,color}]
+    const [selectedIndex, setSelectedIndex] = useState<{ [key: number]: { color: string } }>({});
+    const [activeToken, setActiveToke] = useState({ activeLine: -1, activeToken: '', variables: {} });
+    const { speed } = useSpeed((s: any) => s);
 
-                if (tempArr[j].value > tempArr[j + 1].value) {
-
-                    // swap
-                    [tempArr[j], tempArr[j + 1]] = [tempArr[j + 1], tempArr[j]];
-
-                    setArr([...tempArr]);
-                    await sleep(ms);
-                }
-            }
-            setLastSortedIndex(n - i - 1);
+    // console.log('selectedIndex', selectedIndex);
+    useEffect(() => {
+        if(hideButton && isExecute){
+            sort(arr, setArr, setActiveToke, setSelectedIndex, speed);
         }
+    },[isExecute,hideButton])
 
-        setSelectedIndex([-1, -1]);
-    }
-
-
-    const execute2 = async (ms:number=1000) => {
-        const tempArr = [...ARR];
-        let j=0;
-
-        // [tempArr[j], tempArr[j + 1]] = [tempArr[j + 1], tempArr[j]];
-        tempArr[0].value = 5;
-        tempArr[1].value = 4;
-
-        setArr(tempArr);
-
-    }
 
     return (
-        <div className='h-screen flex justify-center items-center bg-black'>
+        <div className='h-full p-2 flex justify-center items-center bg-black'>
+            <div>
+                <div className=''>
+
+                    <div className='flex justify-center'>
+                        {/* Title */}
+                        <h1 className='text-2xl text-white'>Sort Visualizer ( {title} )</h1>
+                    </div>
+
+
+                    <div className='bg-purple-600 w-full h-full rounded-md p-4   flex flex-col justify-center items-center'>
+
+                        {/* Bars */}
+                        <div className='flex items-end gap-2'>
+
+                            {arr?.map((item, index) => {
+                                let color = 'bg-blue-400';
+                                if (selectedIndex[index]?.color) {
+                                    color = selectedIndex[index].color
+                                }
+                                return (
+                                    <motion.div
+                                        key={item.id}
+                                        layout
+                                        transition={{ duration: speed * 0.001 }}
+                                        className='flex flex-col items-center'
+                                    >
+                                        <div
+                                            className={`${color} flex justify-center items-end text-black`}
+                                            style={{
+                                                height: `${item.value * 10}px`,
+                                                width: '30px',
+                                            }}
+                                        >
+                                            <span>{item.value}</span>
+                                        </div>
+
+                                        <div className='text-white mt-1'>
+                                            {index}
+                                        </div>
+                                    </motion.div>
+                                )
+                            })}
+                        </div>
 
 
 
-            <div className='w-[90vw] h-[90vh]'>
-
-         
-            <div className='bg-purple-600 w-full h-full rounded-md  flex flex-col justify-center items-center'>
-
-                {/* Bars */}
-                <div className='flex items-end gap-2'>
-
-                    {arr.map((item, index) => {
-
-                        let color = 'bg-blue-400';
-
-                        if (index === selectedIndex[0] || index === selectedIndex[1]) {
-                            color = 'bg-green-400';
-                        }
-
-                        if (index >= lastSortedIndex) {
-                            color = 'bg-red-400';
-                        }
-
-                        return (
-                            <motion.div
-                                key={item.id}
-                                layout
-                                transition={{ duration: DURATION }}
-                                className='flex flex-col items-center'
-                            >
-                                <div
-                                    className={`${color} flex justify-center items-end text-black`}
-                                    style={{
-                                        height: `${item.value * 10}px`,
-                                        width: '30px',
-                                    }}
-                                >
-                                    <span>{item.value}</span>
-                                </div>
-
-                                <div className='text-white mt-1'>
-                                    {index}
-                                </div>
-                            </motion.div>
-                        )
-                    })}
+                    </div>
                 </div>
 
-                {/* Button */}
-                <div className='mt-6'>
-                    <button
-                        className='bg-blue-500 px-4 py-2 rounded-xl hover:text-blue-500 hover:bg-white cursor-pointer'
-                        onClick={()=>execute1(DURATION*1000)}
-                    >
-                        Execute
-                    </button>
-                </div>
+                {code && <div className=''>
+
+                    <CodeExecutionVisualizer code={code} activeToken={activeToken} />
+                </div>}
+
+              {!hideButton &&  <div className='flex justify-center'>
+                         {/* Button */}
+                    <div className='mt-6'>
+                        <button
+                            className='bg-blue-500 px-4 py-2 rounded-xl hover:text-blue-500 hover:bg-white cursor-pointer'
+                            onClick={() => sort(ARR, setArr, setActiveToke, setSelectedIndex, speed)}
+                        >
+                            Execute
+                        </button>
+                    </div>
+                </div>}
+
 
             </div>
-               </div>
         </div>
     )
 }
