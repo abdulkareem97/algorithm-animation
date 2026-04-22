@@ -58,7 +58,7 @@ const Main = ({ code, sort, codeVisible = true,title,hideButton=false,isExecute=
 
 
     return (
-        <div className='h-full p-2 flex justify-center items-center bg-black'>
+        <div className='h-full p-2 flex justify-center items-center '>
             <div>
                 <div className=''>
 

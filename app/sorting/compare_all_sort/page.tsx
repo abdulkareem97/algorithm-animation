@@ -38,7 +38,7 @@ const page = () => {
                 </div>
             </div>
 
-            <div className='grid grid-cols-2 '>
+            <div className='grid grid-cols-2 max-md:grid-cols-1 '>
                 <div>
                     <Main code={null} sort={bubble_sort} title='Bubble Sort' hideButton={true} isExecute={isExecute} />
                 </div>

@@ -70,11 +70,11 @@ const CodeExecutionVisualizer = ({ code, activeToken }: CodeExecutionVisualizerP
 
 
 
-      <div className="flex space-x-2">
+      <div className="flex max-md:flex-col max-md:space-y-2 space-x-2 max-md:text-sm">
 
 
         {/* CODE BLOCK */}
-        <div className="flex-1 bg-gray-900 p-4 rounded-xl">
+        <div className="flex-1 bg-gray-900  rounded-xl ">
           {code.map((line, i) => (
             <motion.div
               key={i}

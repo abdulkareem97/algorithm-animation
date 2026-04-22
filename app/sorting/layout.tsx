@@ -11,7 +11,7 @@ export default function Layout({
 
     const { speed, setSpeed } = useSpeed((s: any) => s);
   return (
-    <div>
+    <div className='mt-4'>
         <div className='absolute right-0 top-0'>
             
                 <div className='p-2'>
